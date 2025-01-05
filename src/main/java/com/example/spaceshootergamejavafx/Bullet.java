@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 public class Bullet extends GameObject {
 
   /** Width of the bullet */
-  public static final int WIDTH = 4;
+  public static final int WIDTH = 8;
 
   /** Height of the bullet */
   public static final int HEIGHT = 15;
@@ -41,8 +41,8 @@ public class Bullet extends GameObject {
    */
   @Override
   public void render(GraphicsContext gc) {
-    gc.setFill(Color.YELLOW);
-    gc.fillRect(x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
+    gc.setFill(Color.RED);
+    gc.fillOval(x - WIDTH / 2, y - HEIGHT / 2, WIDTH, HEIGHT);
   }
 
   /**

@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 public class EnemyBullet extends GameObject {
 
   /** Width of the bullet */
-  public static final int WIDTH = 4;
+  public static final int WIDTH = 14;
 
   /** Height of the bullet */
   public static final int HEIGHT = 20;

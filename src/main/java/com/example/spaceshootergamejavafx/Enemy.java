@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Enemy extends GameObject {
 
   /** Width of the enemy hitbox. */
-  protected static final int WIDTH = 30;
+  protected static final int WIDTH = 50;
 
   /** Height of the enemy hitbox. */
   protected static final int HEIGHT = 30;

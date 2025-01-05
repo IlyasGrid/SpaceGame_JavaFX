@@ -37,7 +37,7 @@ public class SpaceShooter extends Application {
   public static final int WIDTH = 350;
 
   /** Height of the game window. */
-  public static final int HEIGHT = 800;
+  public static final int HEIGHT = 600;
 
   /** Number of lives the player starts with. */
   public static int numLives = 3;
