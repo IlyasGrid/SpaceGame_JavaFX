@@ -38,6 +38,13 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>im.ene.toro2</groupId>
+            <artifactId>toro-ext-mediaplayer</artifactId>
+            <version>2.3.0</version>
+
+        </dependency>
+
     </dependencies>
 
     <build>
