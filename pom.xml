@@ -68,7 +68,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.spaceshootergamejavafx/com.example.spaceshootergamejavafx.SpaceShooter
+                                com.example.spaceshootergamejavafx/com.example.spacegame_javafx.SpaceShooter
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

@@ -52,7 +52,12 @@ public class Player extends GameObject {
     this.overlayImage =
         new Image(Objects.requireNonNull(getClass().getResourceAsStream("/player.png")));
   }
-
+  public void takeDamage() {
+    health-=10;
+    if (health <= 0) {
+      setDead(true);
+    }
+  }
   /**
    * Returns the width of the player hitbox
    *

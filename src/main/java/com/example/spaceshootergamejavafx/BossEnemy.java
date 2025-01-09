@@ -58,6 +58,7 @@ public class BossEnemy extends Enemy {
     if (x - WIDTH / 2 <= 0 || x + WIDTH / 2 >= SpaceShooter.WIDTH) {
       horizontalSpeed = -horizontalSpeed;
     }
+
   }
 
   /** Damages the boss enemy by reducing its health. */
@@ -73,7 +74,7 @@ public class BossEnemy extends Enemy {
    *
    * @param newObjects List of GameObjects to add new objects to.
    */
-  public void shoot(List<GameObject> newObjects) {
+  public void shoot(List<EnemyBullet> newObjects) {
     if (Math.random() < 0.015) {
       newObjects.add(new EnemyBullet(x, y + HEIGHT / 2));
     }

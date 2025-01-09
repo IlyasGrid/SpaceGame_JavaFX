@@ -6,27 +6,26 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.image.Image;
 
-import javax.print.attribute.standard.Media;
-
-import java.util.*;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.*;
 /** Main game class for the Space Shooter game. */
 public class SpaceShooter extends Application {
 private UserManager userManager;
@@ -188,6 +187,7 @@ private UserManager userManager;
                 while (iterator.hasNext()) {
                   GameObject obj = iterator.next();
                   if (obj.isDead()) {
+
                     iterator.remove();
                   }
                 }
@@ -197,21 +197,35 @@ private UserManager userManager;
     gameLoop.start();
     primaryStage.show();
   }
-
+  int created = 0;
+  BossEnemy boss;
   /** Spawns an enemy at a random x-coordinate at the top of the screen. */
   private void spawnEnemy() {
     Random random = new Random();
     int x = random.nextInt(WIDTH - 50) + 25;
 
     if (score % 200 == 0 && score > 0 && !bossExists) {
-      BossEnemy boss = new BossEnemy(x, -50);
+       boss = new BossEnemy(x, -50);
       gameObjects.add(boss);
+      created = 1;
       showTempMessage("A boss is ahead, watch out!", 75, HEIGHT / 2 - 100, 5);
       bossExists = true; // Ensure we don't spawn multiple bosses
     } else {
       Enemy enemy = new Enemy(x, -40);
       gameObjects.add(enemy);
     }
+    // craeate bullet done
+//    if(created==1){
+//      if (!boss.isDead()){
+//        EnemyBullet bulle = new EnemyBullet(boss.x, boss.y);
+//        enemyBullets.add(bulle);
+//        gameObjects.add(bulle);
+//        boss.shoot(enemyBullets);
+//      for (EnemyBullet bullet : enemyBullets) {
+//        bullet.update(); // Assuming there's an update method in the EnemyBullet class
+//      }
+//    }
+//    }
   }
 
   /**
@@ -219,7 +233,7 @@ private UserManager userManager;
    */
   private void checkCollisions() {
     List<Bullet> bullets = new ArrayList<>();
-    List<Enemy> enemies = new ArrayList<>();
+    List<Enemy> enemies = getEnemies();
     List<PowerUp> powerUps = new ArrayList<>();
 
     for (GameObject obj : gameObjects) {
@@ -240,6 +254,9 @@ private UserManager userManager;
             ((BossEnemy) enemy).takeDamage();
             score += 20;
           } else {
+            FireEffect fr = new FireEffect(enemy.getX(), enemy.getY());
+            newObjects.add(fr);
+            playSound("C:\\Users\\LEGEND\\Desktop\\SpaceGame_JavaFX\\src\\main\\resources\\cheb.wav");
             enemy.setDead(true);
             score += 10;
           }
@@ -260,6 +277,23 @@ private UserManager userManager;
           scoreLabel.setText("Score: " + score);
         }
       }
+
+//      // check collisions between bulletsenemy and player
+//      if(created==1){
+//
+//        for (EnemyBullet enb : enemyBullets) {
+//        if (player.getBounds().intersects(enb.getBounds())) {
+//          player.setDead(true);
+//          score -= 40;
+//          scoreLabel.setText("Score: " + score);
+//          showLosingScreen();
+//
+//        }
+//      }
+//
+//
+//      }
+
     }
 
     if (score % 100 == 0 && score > 0 && !levelUpShown) {
@@ -268,6 +302,10 @@ private UserManager userManager;
     } else if (score % 100 != 0) {
       levelUpShown = false;
     }
+  }
+
+  private static ArrayList<Enemy> getEnemies() {
+    return new ArrayList<>();
   }
 
   /**
@@ -286,6 +324,7 @@ private UserManager userManager;
     for (Enemy enemy : enemies) {
       if (enemy.getY() + enemy.getHeight() / 2 >= HEIGHT) {
         enemy.setDead(true);
+
         enemy.SPEED = enemy.SPEED + 0.4;
         numLives--;
         score -= 10;
@@ -448,6 +487,7 @@ private UserManager userManager;
           }
         });
   }
+  List<EnemyBullet> enemyBullets = new ArrayList<>();
 
   /** Spawns a power-up at a random x-coordinate at the top of the screen. */
   private void spawnPowerUp() {
@@ -458,13 +498,13 @@ private UserManager userManager;
   }
 
   /** Spawns a boss enemy at the top of the screen. */
+
   private void spawnBossEnemy() {
     if (gameObjects.stream().noneMatch(obj -> obj instanceof BossEnemy)) {
       BossEnemy bossEnemy = new BossEnemy(WIDTH / 2, -40);
       gameObjects.add(bossEnemy);
-      EnemyBullet enB = new EnemyBullet(WIDTH / 2, -40);
-      gameObjects.add(enB);
-      bossEnemy.shoot(gameObjects);
+//      EnemyBullet enb = new EnemyBullet(WIDTH / 2, -40);
+//      enemyBullets.add(enb);
     }
   }
 
@@ -540,59 +580,6 @@ private UserManager userManager;
     return button;
   }
 
-
-  /**
-   * Creates a styled button with a gradient background and hover effects.
-   *
-   * @param text The text to display on the button
-   * @param y The y-coordinate of the button
-   * @return The styled button
-   */
-  private Button createStyledButton(String text, double y) {
-    Button button = new Button(text);
-    button.setStyle(
-        "-fx-background-color: linear-gradient(to right, #6a11cb, #2575fc);"
-            + "-fx-text-fill: white;"
-            + "-fx-font-size: 18;"
-            + "-fx-font-weight: bold;"
-            + "-fx-padding: 10 20;"
-            + "-fx-border-radius: 20;"
-            + "-fx-background-radius: 20;"
-            + "-fx-border-color: #ffffff;"
-            + "-fx-border-width: 2;"
-            + "-fx-font-family: 'Verdana';");
-    button.setOnMouseEntered(
-        event -> {
-          button.setStyle(
-              "-fx-background-color: linear-gradient(to right, #2575fc, #6a11cb);"
-                  + "-fx-text-fill: yellow;"
-                  + "-fx-font-size: 18;"
-                  + "-fx-font-weight: bold;"
-                  + "-fx-padding: 10 20;"
-                  + "-fx-border-radius: 20;"
-                  + "-fx-background-radius: 20;"
-                  + "-fx-border-color: yellow;"
-                  + "-fx-border-width: 2;"
-                  + "-fx-font-family: 'Verdana';");
-          button.setEffect(new Glow(0.5));
-        });
-    button.setOnMouseExited(
-        event -> {
-          button.setStyle(
-              "-fx-background-color: linear-gradient(to right, #6a11cb, #2575fc);"
-                  + "-fx-text-fill: white;"
-                  + "-fx-font-size: 18;"
-                  + "-fx-font-weight: bold;"
-                  + "-fx-padding: 10 20;"
-                  + "-fx-border-radius: 20;"
-                  + "-fx-background-radius: 20;"
-                  + "-fx-border-color: #ffffff;"
-                  + "-fx-border-width: 2;"
-                  + "-fx-font-family: 'Verdana';");
-          button.setEffect(null);
-        });
-    return button;
-  }
 
 
   /** Shows the instructions for the game. */

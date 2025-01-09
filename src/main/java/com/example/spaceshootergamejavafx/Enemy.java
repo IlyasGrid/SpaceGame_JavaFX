@@ -19,7 +19,7 @@ public class Enemy extends GameObject {
   public static double SPEED = 1;
 
   /** Image for the enemy. */
-  private final Image enemyImage;
+  private  Image enemyImage;
 
   /** Flag to indicate if the enemy is dead. */
   private boolean dead = false;
@@ -86,6 +86,8 @@ public class Enemy extends GameObject {
    * @param dead The dead flag to set.
    */
   public void setDead(boolean dead) {
+//    this.enemyImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/exp.png")));
+
     this.dead = dead;
   }
 
@@ -96,6 +98,9 @@ public class Enemy extends GameObject {
    */
   @Override
   public boolean isDead() {
+    ///  pauuse for displayin exp for two sec
+
+
     return dead;
   }
 }

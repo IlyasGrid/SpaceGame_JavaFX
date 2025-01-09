@@ -1,7 +1,7 @@
 package com.example.spaceshootergamejavafx;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.geometry.Bounds;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 
 /** Represents a game object in the game */

@@ -1,15 +1,12 @@
 package com.example.spaceshootergamejavafx;
 
-import com.example.spaceshootergamejavafx.SpaceShooter;
-import com.example.spaceshootergamejavafx.User;
-import com.example.spaceshootergamejavafx.UserManager;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class LoginScene {
